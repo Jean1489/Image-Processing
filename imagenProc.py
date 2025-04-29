@@ -922,14 +922,14 @@ class NiftiViewer:
         self.seg_window.destroy()
 
     def threshold_segmentation(self, min_threshold, max_threshold):
-        """Implementa segmentación por umbralización"""
+        """Implementación segmentación por umbralización"""
         result = np.zeros_like(self.image_data)
         mask = (self.image_data >= min_threshold) & (self.image_data <= max_threshold)
         result[mask] = 1
         return result
 
     def region_growing(self, seed_point, tolerance):
-        """Implementa segmentación por crecimiento de regiones desde cero"""
+        """Implementa segmentación por crecimiento de regiones"""
         # Obtener coordenadas del punto semilla
         x, y, z = seed_point
     
@@ -990,7 +990,7 @@ class NiftiViewer:
         return result
 
     def kmeans_segmentation(self, k, max_iterations=100):
-        """Implementa segmentación por K-Means optimizado usando NumPy"""
+        """Implementa segmentación por K-Means"""
         # Aplanar y normalizar datos
         flattened_data = self.image_data.flatten()
         min_val = flattened_data.min()
@@ -1004,11 +1004,11 @@ class NiftiViewer:
         for _ in range(max_iterations):
             old_centroids = centroids.copy()
         
-            # Asignar cada punto al centroide más cercano (vectorizado)
+            # Asignar cada punto al centroide más cercano
             distances = np.abs(normalized_data[:, np.newaxis] - centroids[np.newaxis, :])
             labels = np.argmin(distances, axis=1)
         
-            # Actualizar centroides (vectorizado)
+            # Actualizar centroides
             for j in range(k):
                 if np.any(labels == j):
                     centroids[j] = normalized_data[labels == j].mean()
@@ -1526,7 +1526,7 @@ class NiftiViewer:
         self.prep_window.destroy()
 
     def mean_filter(self, data, kernel_size):
-        """Implementa un filtro de media sin usar bibliotecas externas"""
+        """Implementa un filtro de media"""
         # Crear copia de datos
         result = np.zeros_like(data)
     
@@ -1565,7 +1565,7 @@ class NiftiViewer:
         return result
 
     def median_filter(self, data, kernel_size):
-        """Implementa un filtro de mediana sin usar bibliotecas externas"""
+        """Implementa un filtro de mediana"""
         # Crear copia de datos
         result = np.zeros_like(data)
     
@@ -1602,7 +1602,7 @@ class NiftiViewer:
         return result
 
     def bilateral_filter(self, data, window_size, sigma_space, sigma_range):
-        """Filtro bilateral corregido para evitar accesos fuera de límites."""
+        """Filtro bilateral."""
         result = np.zeros_like(data)
         radius = window_size // 2
         kernel_size = 2 * radius + 1  # Tamaño total del kernel
@@ -1669,7 +1669,7 @@ class NiftiViewer:
         return result
 
     def anisotropic_diffusion(self, data, iterations, kappa, lambda_val):
-        """Implementa el filtro de difusión anisotrópica (Perona-Malik)"""
+        """Implementación del filtro de difusión anisotrópica (Perona-Malik)"""
         # Crear copia de datos
         result = data.copy()
     
@@ -1719,7 +1719,7 @@ class NiftiViewer:
         return result
 
     def edge_detection(self, low_threshold, high_threshold, kernel_size):
-        """Implementa detección de bordes tipo Canny desde cero"""
+        """Implementa detección de bordes tipo Canny"""
         # Crear un resultado 3D
         result = np.zeros_like(self.image_data)
     
@@ -1760,7 +1760,7 @@ class NiftiViewer:
         return result
     
     def non_local_means(self, patch_size, search_radius, h_param):
-        """Implementa Non-Local Means para reducción de ruido desde cero"""
+        """Implementa Non-Local Means"""
         # Crear un resultado 3D
         result = np.zeros_like(self.image_data)
     
@@ -1917,7 +1917,7 @@ class NiftiViewer:
         return result
 
     def nlm_2d(self, image, patch_size, search_radius, h_param):
-        """Implementación simplificada de Non-Local Means para una imagen 2D"""
+        """Implementación de Non-Local Means para una imagen 2D"""
         height, width = image.shape
         result = np.zeros_like(image)
         h_squared = h_param ** 2
